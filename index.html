@@ -167,6 +167,8 @@
       scroll-behavior: smooth;
       scroll-padding-top: calc(var(--nav-h) + 14px);
       -webkit-text-size-adjust: 100%;
+      overflow-x: hidden;
+      max-width: 100%;
     }
 
     body {
@@ -178,6 +180,9 @@
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+      max-width: 100%;
+      width: 100%;
+      position: relative;
       padding-top: env(safe-area-inset-top, 0px);
       padding-bottom: env(safe-area-inset-bottom, 0px);
     }
@@ -229,11 +234,19 @@
       max-width: 1180px;
       margin-inline: auto;
       padding-inline: var(--sp-5);
+      width: 100%;
+      box-sizing: border-box;
     }
 
     @media (max-width: 640px) {
       .wrap {
-        padding-inline: var(--sp-4);
+        padding-inline: var(--sp-3);
+      }
+    }
+
+    @media (max-width: 380px) {
+      .wrap {
+        padding-inline: 14px;
       }
     }
 
@@ -648,7 +661,7 @@
       padding-top: calc(var(--nav-h) + var(--sp-5));
       padding-bottom: var(--sp-6);
       position: relative;
-      overflow: clip;
+      overflow: hidden;
     }
 
     .hero-bg {
@@ -709,20 +722,30 @@
       position: relative;
       z-index: 1;
       display: grid;
-      grid-template-columns: 1.05fr .95fr;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
       gap: var(--sp-7);
       align-items: center;
       width: 100%;
+      min-width: 0;
+    }
+
+    .hero-copy,
+    .hero-visual {
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     .hero-eyebrow {
       font-family: var(--font-mono);
       font-size: .88rem;
       color: var(--cyan);
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: .65em;
       margin-bottom: var(--sp-3);
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     .hero-eyebrow .pulse {
@@ -914,27 +937,30 @@
 
     @media (max-width: 980px) {
       .hero-inner {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: var(--sp-6);
         text-align: left;
       }
 
       .code-window {
-        transform: none;
+        transform: none !important;
       }
 
       .hero-visual {
-        max-width: 460px;
+        max-width: 100%;
+        width: 100%;
       }
     }
 
-    @media (max-width: 560px) {
+    @media (max-width: 640px) {
       .hero {
-        padding-top: calc(var(--nav-h) + var(--sp-4));
+        min-height: auto;
+        padding-top: calc(var(--nav-h) + var(--sp-3));
+        padding-bottom: calc(var(--sp-6) + 40px);
       }
 
       .float-chip {
-        display: none;
+        display: none !important;
       }
     }
 
@@ -2465,40 +2491,67 @@
    ENHANCED MOBILE RESPONSIVENESS
    ========================================================================== */
 
-    /* ---- Small phones: Hero ---- */
-    @media (max-width: 420px) {
+    /* ---- Mobile Responsiveness: Hero ---- */
+    @media (max-width: 640px) {
       .hero h1 {
-        font-size: clamp(2rem, 8vw, 2.6rem);
+        font-size: clamp(1.85rem, 7.5vw, 2.5rem);
+        line-height: 1.18;
+        word-break: break-word;
+        margin-bottom: var(--sp-2);
       }
 
       .hero .role {
-        font-size: .9rem;
+        font-size: clamp(0.92rem, 3.4vw, 1.12rem);
+        margin-bottom: var(--sp-3);
       }
 
       .hero p.lead {
-        font-size: .95rem;
+        font-size: 0.94rem;
+        line-height: 1.6;
+        max-width: 100%;
+        margin-bottom: var(--sp-4);
       }
 
       .hero-actions {
+        display: flex;
         flex-direction: column;
+        width: 100%;
+        max-width: 100%;
         gap: var(--sp-2);
+        margin-bottom: var(--sp-4);
       }
 
       .hero-actions .btn {
         width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
         text-align: center;
         justify-content: center;
+        padding: .85em 1.4em;
+        font-size: .92rem;
+      }
+
+      .code-window {
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .code-window pre {
-        font-size: .72rem;
-        padding: 1em;
+        font-size: .74rem;
+        padding: 1em 1.2em;
         line-height: 1.7;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: auto;
       }
 
       .hero-socials {
+        display: flex;
+        align-items: center;
         flex-wrap: wrap;
         gap: var(--sp-2);
+        width: 100%;
       }
     }
 
@@ -2604,15 +2657,7 @@
       }
     }
 
-    /* ---- Back to top: smaller on mobile ---- */
-    @media (max-width: 640px) {
-      .to-top {
-        width: 42px;
-        height: 42px;
-        right: var(--sp-3);
-        bottom: var(--sp-3);
-      }
-    }
+    /* Back to top spacing handled in dedicated floating section */
 
     /* ---- Section head on mobile ---- */
     @media (max-width: 480px) {
@@ -3213,13 +3258,21 @@
     /* ---- Hero eyebrow badge style on mobile ---- */
     @media (max-width: 640px) {
       .hero-eyebrow {
-        font-size: .76rem;
+        font-size: clamp(0.7rem, 2.7vw, 0.78rem);
         background: rgba(0, 245, 255, .07);
         border: 1px solid rgba(0, 245, 255, .2);
-        padding: .4em .9em;
+        padding: .35em .8em;
         border-radius: 999px;
         display: inline-flex;
         width: fit-content;
+        max-width: 100%;
+        box-sizing: border-box;
+        line-height: 1.4;
+        word-break: break-word;
+      }
+
+      .hero-eyebrow .pulse {
+        flex-shrink: 0;
       }
     }
 
@@ -4930,12 +4983,41 @@
    BACK-TO-TOP + WHATSAPP BUTTON SAFE SPACING
    ========================================================================== */
     .to-top {
-      bottom: calc(var(--sp-4) + 68px);
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 910;
+    }
+
+    .wa-float {
+      position: fixed;
+      bottom: 84px;
+      right: 24px;
+      z-index: 900;
     }
 
     @media (max-width: 640px) {
       .to-top {
-        bottom: calc(var(--sp-3) + 68px);
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+        right: 16px;
+        width: 42px;
+        height: 42px;
+      }
+
+      .wa-float {
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 68px);
+        right: 16px;
+        width: 48px;
+        height: 48px;
+      }
+
+      .wa-float-icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .wa-float-tooltip {
+        display: none;
       }
     }
   </style>
